@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Enter the file name (with full path if not in program's folder):");
+        System.out.println("Enter the file name (with full path if file is not in program's root folder):");
         Scanner scanner = new Scanner(System.in);
         String path = scanner.nextLine();
         File file = new File(path);
@@ -28,23 +28,15 @@ public class Main {
 
         System.out.println("Enter output file, into which program should write the result:");
         path = scanner.nextLine();
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(path);
+        try (FileWriter fileWriter = new FileWriter(path)) {
             for (HashMap.Entry<Character, Long> entry : frequencyDictionary.entrySet()) {
                 fileWriter.write(entry.getKey() + ": " + entry.getValue() + "\n");
             }
             System.out.println("Successfully wrote the result into file!");
         } catch (IOException e) {
             System.err.println("Error: file can not be opened or created for writing. Message: " + e.getMessage());
-        } finally {
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    System.out.println("Error closing output file, message: " + e.getMessage());
-                }
-            }
         }
+
+        scanner.close();
     }
 }

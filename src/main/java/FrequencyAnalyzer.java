@@ -17,7 +17,6 @@ public class FrequencyAnalyzer {
             throw new FileNotFoundException("File " + file.getName() + " does not exist.");
         }
 
-        boolean successfullyRead = false;
         HashMap<Character, Long> frequencyDictionary = new HashMap<Character, Long>();
         try (FileReader fileReader = new FileReader(file);) {
             for (char character = 'a'; character <= 'z'; character++) {
