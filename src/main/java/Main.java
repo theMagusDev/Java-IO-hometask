@@ -5,19 +5,9 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
-//        try {
-//            throw new IOException();
-//        } catch (IOException e) {
-//            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-//                System.out.println(stackTraceElement.toString());
-//            }
-//        }
-
         System.out.println("Enter the file name (with full path if not in program's folder):");
         Scanner scanner = new Scanner(System.in);
         String path = scanner.nextLine();
-
         File file = new File(path);
         while (!file.exists()) {
             System.out.println("Invalid path or file name, enter correctly:");
@@ -36,7 +26,7 @@ public class Main {
             return; // no use in following writing, frequency calculation failed
         }
 
-        System.out.println("Enter output file, to where program should write the result:");
+        System.out.println("Enter output file, into which program should write the result:");
         path = scanner.nextLine();
         FileWriter fileWriter = null;
         try {
@@ -46,14 +36,14 @@ public class Main {
             }
             System.out.println("Successfully wrote the result into file!");
         } catch (IOException e) {
-            System.out.println("Error: file can not be opened or created for writing. Message: " + e.getMessage());
+            System.err.println("Error: file can not be opened or created for writing. Message: " + e.getMessage());
         } finally {
-            try {
-                if (fileWriter != null) {
+            if (fileWriter != null) {
+                try {
                     fileWriter.close();
+                } catch (IOException e) {
+                    System.out.println("Error closing output file, message: " + e.getMessage());
                 }
-            } catch (IOException e) {
-                System.out.println("Error closing output file, message: " + e.getMessage());
             }
         }
     }
