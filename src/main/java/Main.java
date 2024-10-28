@@ -5,9 +5,15 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Enter the file name (with full path if file is not in program's root folder):");
+        System.out.println(
+                "Enter the file name (leave empty to use default). \n"
+                + "Note: if the file is not in program's root folder, enter a full path."
+        );
         Scanner scanner = new Scanner(System.in);
         String path = scanner.nextLine();
+        if (path.isEmpty()) {
+            path = "src/main/resources/java_description.txt";
+        }
         File file = new File(path);
         while (!file.exists()) {
             System.out.println("Invalid path or file name, enter correctly:");
