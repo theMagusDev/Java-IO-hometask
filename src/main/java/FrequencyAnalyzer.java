@@ -1,10 +1,54 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class FrequencyAnalyzer {
+
+    /**
+     * Method to get input file path from user.
+     * @return A {@code File} object, representing user's input file.
+     */
+    static File getInputFileFromUser() {
+        System.out.println(
+                "Enter the file name (leave empty to use default). \n"
+                        + "Note: if the file is not in program's root folder, enter a full path."
+        );
+        Scanner scanner = new Scanner(System.in);
+        String path = scanner.nextLine();
+        if (path.isEmpty()) {
+            path = "src/main/resources/java_description.txt";
+        }
+        File file = new File(path);
+        while (!file.exists()) {
+            System.out.println("Invalid path or file name, enter correctly:");
+            path = scanner.nextLine();
+            file = new File(path);
+        }
+
+        scanner.close();
+
+        return file;
+    }
+
+    /**
+     * Method to get destination file path from user and export frequency analysis results into this file.
+     * @param frequencyDictionary Frequency analysis resulting dictionary of type {@code HashMap<Character, Long>}
+     */
+    static void exportAnalysisResults(HashMap<Character, Long> frequencyDictionary) {
+        System.out.println("Enter output file, into which program should write the result:");
+        Scanner scanner = new Scanner(System.in);
+        String path = scanner.nextLine();
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            for (HashMap.Entry<Character, Long> entry : frequencyDictionary.entrySet()) {
+                fileWriter.write(entry.getKey() + ": " + entry.getValue() + "\n");
+            }
+            System.out.println("Successfully wrote the result into file!");
+        } catch (IOException e) {
+            System.err.println("Error: file can not be opened or created for writing. Message: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
 
     /**
      * @param file file path
