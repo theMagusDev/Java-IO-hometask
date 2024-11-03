@@ -11,7 +11,7 @@ public class Main {
             file = FrequencyAnalyzer.getInputFileFromUser(scanner);
         } catch (InputStreamClosedException e) {
             System.out.println(e.getMessage());
-            return;
+            return; // I/O stream was closed, ending program.
         }
 
         HashMap<Character, Long> frequencyDictionary;
