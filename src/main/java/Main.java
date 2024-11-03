@@ -5,7 +5,14 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        File file = FrequencyAnalyzer.getInputFileFromUser();
+        Scanner scanner = new Scanner(System.in);
+        File file;
+        try {
+            file = FrequencyAnalyzer.getInputFileFromUser(scanner);
+        } catch (InputStreamClosedException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         HashMap<Character, Long> frequencyDictionary;
         try {
@@ -18,6 +25,10 @@ public class Main {
             return; // no use in following writing, frequency calculation failed
         }
 
-        FrequencyAnalyzer.exportAnalysisResults(frequencyDictionary);
+        try {
+            FrequencyAnalyzer.exportAnalysisResults(frequencyDictionary, scanner);
+        } catch (InputStreamClosedException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
